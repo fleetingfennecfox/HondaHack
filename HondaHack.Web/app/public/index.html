@@ -51,24 +51,44 @@
                 <li>
                     <a href="#" ng-click="indexCtrl.safestClicked()">Safe Routes</a><!-- Evan Leach -->
 
-                </li>
-                <li>
-                    <a href="#" ng-click="indexCtrl.avoidClicked()">Avoid Events</a><!-- Chris Haralson -->
-                </li>
-                <br />
-                <li>
-                    <a href="#" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show List Events</a>
-                </li>
-                <li>
-                    <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
-                </li>
-                <li>
-                    <a href="#" ng-if="listTrue == true" class="eventList">Stub Hub</a>
-                </li>
-                <li>
-                    <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
-                </li>
-            </ul>
+                    </li>
+                    <li>
+                        <a href="#" ng-click="indexCtrl.avoidClicked()">Avoid Events</a><!-- Chris Haralson -->
+                    </li>
+                    <hr />
+                    <li id="events">
+                        <a href="#" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show List Events</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-if="listTrue == true" class="eventList">Stub Hub</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
+                    </li>
+                    <hr />
+                    <div style="margin: 3px">
+                        <li id="messageOne" style="color: #93D9F8"> 
+
+                        </li>
+                        <li id="messageTwo" style="color: #93D9F8">
+
+                        </li>
+                        <li id="messageThree" style="color: #93D9F8">
+
+                        </li>
+                        <li id="messageFour" style="color: #93D9F8">
+
+                        </li>
+                        <li id="messageFive" style="color: #93D9F8">
+
+                        </li>
+                    </div>
+                    
+                </ul>
+            </div>
         </div>
         <div id="page-content-wrapper">
             <a class="btn btn-default" href="#menu-toggle" id="menu-toggle">
