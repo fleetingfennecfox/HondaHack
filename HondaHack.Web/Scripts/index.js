@@ -3,12 +3,32 @@
      
     angular.module("publicApp")
         .controller("indexController", indexController);    
+
+    indexController.$inject = ["$rootScope"];
  
-    function indexController() {
+    function indexController($rootScope) {
         var vm = this; 
         vm.btnFindLocation = _btnFindLocation;
+        vm.$rootScope = $rootScope;
         vm.showInput = true;
         vm.hideInputBtn = _hideInputBtn;
+        vm.fastestRouteClicked = _fastestRouteClicked;
+        vm.safestClicked = _safestClicked;
+        vm.avoidClicked = _avoidClicked;
+
+        //THE FOLD
+
+        function _fastestRouteClicked() {
+            vm.$rootScope.$broadcast('fast');
+        }
+
+        function _safestClicked() {
+            vm.$rootScope.$broadcast('safe');
+        }
+
+        function _avoidClicked() {
+            vm.$rootScope.$broadcast('avoid');
+        }
 
         function _hideInputBtn()
         {
