@@ -20,7 +20,7 @@
         function _getLocation() {
             return $http.get("https://api.smartcar.com/v1.0/vehicles/68de505b-0a13-490d-88e2-52765772602c/location", {
                 headers: {
-                    'Authorization': 'Bearer 5b058490-73ad-4937-b41f-4e11dbea71e3'
+                    'Authorization': 'Bearer 15b4a329-10e4-4f21-9ec3-89df2516a61f'
                 }
             })
         }
