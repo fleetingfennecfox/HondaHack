@@ -393,7 +393,8 @@
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
                 provideRouteAlternatives: true,
-                travelMode: google.maps.DirectionsTravelMode.WALKING,
+                avoidHighways: true,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING,
                 unitSystem: google.maps.UnitSystem.IMPERIAL
             };
             // Retrieve the start and end locations and create a DirectionsRequest using
@@ -464,7 +465,7 @@
                             var polyline = null;
                             if (i == 0) {
                                 polyline = new google.maps.Polyline({
-                                    strokeColor: '#0000FF',
+                                    strokeColor: '#4DBC41',
                                     strokeOpacity: 0.5,
                                     strokeWeight: 7
                                 });
@@ -477,7 +478,7 @@
                             }
                             else {
                                 polyline = new google.maps.Polyline({
-                                    strokeColor: '#FF0000',
+                                    strokeColor: '#4DBC41',
                                     strokeOpacity: 0.5,
                                     strokeWeight: 7
                                 });
