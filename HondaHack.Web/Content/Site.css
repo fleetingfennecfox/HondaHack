@@ -143,6 +143,10 @@ canvas {
   list-style: none;
 }
 
+.eventList {
+    color:deeppink !important;
+    
+}
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 40px;
