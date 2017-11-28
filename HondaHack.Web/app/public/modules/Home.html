@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service (complex)</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+
+        #warnings-panel {
+            width: 100%;
+            height: 10%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="floating-panel">
+        <b>Start: </b>
+        <input type="text" id="start" />
+        <b>End: </b>
+        <input type="text" id="end" />
+    </div>
+
+    <div id="map"></div>
+    &nbsp;
+    <div id="warnings-panel"></div>
+    <script>
+        var polylines = [];
+        function initMap() {
+            var markerArray = [];
+
+            // Instantiate a directions service.
+            var directionsService = new google.maps.DirectionsService;
+
+            // Create a map and center it on Manhattan.
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: { lat: 34.0522, lng: -118.2437 }
+            });
+
+            var olympics = [{
+                position: new google.maps.LatLng(33.94616, -118.336119),
+                title: 'LA Stadium'              
+            },
+            {
+                position: new google.maps.LatLng(33.95820919323983, -118.34187805652618),
+                title: 'The Forum'
+            },
+            {
+                position: new google.maps.LatLng(34.1606364, -118.1674865),
+                title: 'Rose Bowl'
+            },
+            {
+                position: new google.maps.LatLng(34.000602, -118.485658),
+                title: 'Santa Monica Beach'
+            },
+            {
+                position: new google.maps.LatLng(34.07037797099821, -118.44678461551666),
+                title: 'Pauley Pavilion'
+            },
+            {
+                position: new google.maps.LatLng(33.86385889756237, -118.26159954071045),
+                title: 'StubHub Center'
+            },
+            {
+                position: new google.maps.LatLng(34.189857, -118.451355),
+                title: 'Sepulveda Basin Sports Complex'
+            },
+            {
+                position: new google.maps.LatLng(33.807836, -117.876544),
+                title: 'Honda Center'
+            },
+            {
+                position: new google.maps.LatLng(33.8570, -117.1765),
+                title: 'Lake Perris'
+            },
+            {
+                position: new google.maps.LatLng(34.050242, -118.502312),
+                title: 'Riviera Country Club'
+            },
+            {
+                position: new google.maps.LatLng(34.077098, -117.807330),
+                title: 'Frank G.Bonelli Regional Park'
+            },
+            {
+                position: new google.maps.LatLng(34.069600, -118.446972),
+                title: 'UCLA Student Housing'
+            }]
+
+            console.log(olympics[1].position.lat());
+            console.log(olympics[1].position.lng());
+
+            for (var i = 0; i < olympics.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: olympics[i].position,
+                    map: map,
+                    title: olympics[i].title,
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+                });
+            }
+
+           
+            // Create a renderer for directions and bind it to the map.
+            var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
+
+            // Instantiate an info window to hold step text.
+            var stepDisplay = new google.maps.InfoWindow;
+
+            // Display the route between the initial start and end selections.
+            calculateAndDisplayRoute(
+                directionsDisplay, directionsService, markerArray, stepDisplay, map);
+            // Listen to change events from the start and end lists.
+            var onChangeHandler = function () {
+                calculateAndDisplayRoute(
+                    directionsDisplay, directionsService, markerArray, stepDisplay, map);
+            };
+            document.getElementById('start').addEventListener('change', onChangeHandler);
+            document.getElementById('end').addEventListener('change', onChangeHandler);
+        }
+
+        function calculateAndDisplayRoute(directionsDisplay, directionsService,
+            markerArray, stepDisplay, map) {
+            // First, remove any existing markers from the map.
+            for (var i = 0; i < markerArray.length; i++) {
+                markerArray[i].setMap(null);
+            }
+
+            var directionsRequest = {
+                origin: document.getElementById('start').value,
+                destination: document.getElementById('end').value,
+                provideRouteAlternatives: true,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC
+            };
+            // Retrieve the start and end locations and create a DirectionsRequest using
+            // WALKING directions.
+            directionsService.route(
+                directionsRequest, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        var coordinatesArray = [];
+
+                        var totalPoints = 0;
+                        var routeData = [];
+
+                    for (var i = 0, len = response.routes.length; i < len; i++) {
+                        
+
+                        var eventLat = 33.86385889756237;
+                        var eventLng = -118.26159954071045; 
+                        var route1 = 0;
+                        var route2 = 0;
+                        var route3 = 0;
+                        var totalDistance = 0;
+                        for (var j = 0; j < response.routes[i].overview_path.length; j++)
+                        {
+                            totalDistance += distance(eventLat, eventLng, response.routes[i].overview_path[j].lat(), response.routes[i].overview_path[j].lng());
+                        }
+                        totalPoints += response.routes[i].overview_path.length;
+                        var temp = totalDistance / response.routes[i].overview_path.length;
+
+                        console.log("route" + i + " " + totalDistance);
+
+                        console.log("totalPoints:" + totalPoints);
+
+                        routeData.push({ route: i, routeDistance: temp });
+
+                        }
+                    routeData.sort(function (a, b) { return a.routeDistance - b.routeDistance })
+
+                    if (polylines.length > 0) {
+                        for (var i = 0; i < polylines.length; i++) {
+                            console.log(polylines);
+                            polylines[i].setPath([]);
+                        };
+                    };
+
+                    for (var i = 0; i < routeData.length; i++) {
+                        var polyline = null;
+                        if (i == 0) {
+                            polyline = new google.maps.Polyline({
+                                strokeColor: '#0000FF',
+                                strokeOpacity: 0.5,
+                                strokeWeight: 7
+                            });
+                            new google.maps.DirectionsRenderer({
+                                map: map,
+                                directions: response,
+                                polylineOptions: polyline,
+                                routeIndex: i
+                            });
+                        }
+                        else {
+                            polyline = new google.maps.Polyline({
+                                strokeColor: '#FF0000',
+                                strokeOpacity: 0.5,
+                                strokeWeight: 7
+                            });
+                            new google.maps.DirectionsRenderer({
+                                map: map,
+                                directions: response,
+                                polylineOptions: polyline,
+                                routeIndex: i
+                            });
+                        
+                        }
+                        polylines.push(polyline);
+                    }
+                    console.log(routeData);                    
+                    }
+            });
+        }
+
+        function distance(lat1, lng1, lat2, lng2)
+        {
+            var getDistance = Math.sqrt(((lat1 - lng1) * (lat1 - lng1)) + ((lat2 - lng2) * (lat2 - lng2)))
+            return getDistance;
+        }
+
+        function showSteps(directionResult, markerArray, stepDisplay, map) {
+            // For each step, place a marker, and add the text to the marker's infowindow.
+            // Also attach the marker to an array so we can keep track of it and remove it
+            // when calculating new routes.
+            var myRoute = directionResult.routes[0].legs[0];
+            for (var i = 0; i < myRoute.steps.length; i++) {
+                var marker = markerArray[i] = markerArray[i] || new google.maps.Marker;
+                marker.setMap(map);
+                marker.setPosition(myRoute.steps[i].start_location);
+                attachInstructionText(
+                    stepDisplay, marker, myRoute.steps[i].instructions, map);
+            }
+        }
+
+
+
+      //function attachInstructionText(stepDisplay, marker, text, map) {
+      //  google.maps.event.addListener(marker, 'click', function() {
+      //    // Open an info window when the marker is clicked on, containing the text
+      //    // of the step.
+      //    stepDisplay.setContent(text);
+      //    stepDisplay.open(map, marker);
+      //  });
+      //}
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtoY7rneS95VWzFUIzqeWvPcgG_rzQaT8&callback=initMap">
+    </script>
+</body>
+</html>
