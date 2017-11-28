@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <title>Route Planner</title>
 
     <!-- Bootstrap core CSS -->
     <!-- bootstrap -->
@@ -20,6 +20,7 @@
 <body ng-app="publicApp">
     <div id="wrapper" class="toggled">
         <div id="sidebar-wrapper">
+            <!-- Feature Choices -->
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
@@ -27,21 +28,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">Speedy Route</a>
+                    <a href="#">Speedy Route</a><!-- Brent Ida-->
                 </li>
                 <li>
-                    <a href="#">Safest Route</a>
+                    <a href="#">Safest Route</a><!-- Evan Leach -->
                 </li>
                 <li>
-                    <a href="#">Farthest Route</a>
+                    <a href="#">Farthest Route</a><!-- Chris Haralson -->  
                 </li>
                 <li>
-                    <a href="#">Current Events</a>
+                    <a href="#">Current Events</a><!-- Wei -->
                 </li>
             </ul>
         </div>
-
-
         <div id="page-content-wrapper">
             <a class="btn btn-default" href="#menu-toggle" id="menu-toggle">
                 <span class="glyphicon glyphicon-align-justify"></span>
@@ -109,10 +108,6 @@
                 $("#wrapper").toggleClass("toggled");
             });
             $(document).ready(function () {
-                $('.chaffle').chaffle({
-                    speed: 20,
-                    time: 140
-                });
             });
         });
 
@@ -128,7 +123,6 @@
         }).call(this);
 
         $(window).on('resize', function () {
-            reinit();
         });
 
         //CANVAS
