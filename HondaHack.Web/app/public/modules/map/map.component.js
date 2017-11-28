@@ -86,7 +86,7 @@
                 destination: document.getElementById('end').value,
                 provideRouteAlternatives: true,
                 travelMode: google.maps.DirectionsTravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.METRIC
+                unitSystem: google.maps.UnitSystem.IMPERIAL
             };
             // Retrieve the start and end locations and create a DirectionsRequest using
             // WALKING directions.
@@ -97,6 +97,7 @@
 
                         var totalPoints = 0;
                         var routeData = [];
+                        
 
                         for (var i = 0, len = response.routes.length; i < len; i++) {
 
@@ -107,6 +108,20 @@
                             var route2 = 0;
                             var route3 = 0;
                             var totalDistance = 0;
+                            var directions = [];
+                            response.routes[0].legs[0].steps.forEach(function (step) {
+                                function html2text(html) {
+                                    var tag = document.createElement('div');
+                                    tag.innerHTML = html;
+
+                                    return tag.innerText;
+                                }
+
+                                var outputInstructions = html2text(step.instructions);
+                                var outputDistance = html2text(step.distance.text);
+                                directions.push({ instruction: outputInstructions, distance: outputDistance });
+                            });
+
                             for (var j = 0; j < response.routes[i].overview_path.length; j++) {
                                 totalDistance += distance(eventLat, eventLng, response.routes[i].overview_path[j].lat(), response.routes[i].overview_path[j].lng());
                             }
@@ -117,7 +132,7 @@
 
                             console.log("totalPoints:" + totalPoints);
 
-                            routeData.push({ route: i, routeDistance: temp });
+                            routeData.push({ route: i, routeDistance: temp, directions: directions });
 
                         }
                         routeData.sort(function (a, b) { return a.routeDistance - b.routeDistance })
