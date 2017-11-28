@@ -7,6 +7,13 @@
     function indexController() {
         var vm = this;
         vm.btnFindLocation = _btnFindLocation;
+        vm.showInput = true;
+        vm.hideInputBtn = _hideInputBtn;
+
+        function _hideInputBtn()
+        {
+            vm.showInput = false;
+        }
 
         function _btnFindLocation() {
             var map, infoWindow;
