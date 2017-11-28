@@ -245,3 +245,35 @@ canvas {
 .input-group-button {
     padding-bottom: 0px;
 }
+
+
+
+/*Map Css*/
+
+#map {
+    height: 80vh;
+    width: 27vw;
+}
+/* Optional: Makes the sample page fill the window. */
+
+
+#floating-panel {
+    position: absolute;
+    font-size: 12px;
+    top: -40px;
+    left: 38%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 0px;
+}
+
+#warnings-panel {
+    width: 100%;
+    height: 10%;
+    text-align: center;
+}
