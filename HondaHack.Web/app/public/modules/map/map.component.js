@@ -13,22 +13,54 @@
     angular.module("publicApp")
         .controller("mapController", MapController);
 
-    MapController.$inject = ["$scope", "$window"];
+    MapController.$inject = ["$scope", "$window", "$rootScope"];
 
-    function MapController($scope, $window) {
+    function MapController($scope, $window, $rootScope) {
         var vm = this;
         vm.$scope = $scope;
         vm.$window = $window;
+        vm.$rootScope = $rootScope;
         vm.$onInit = _onInit;
         vm.$window.initMap = _initMap;
         vm.polylines = [];
         vm.markerArray = [];
+        vm.fast = _fast;
+        vm.safe = _safe;
+        vm.avoid = _avoid;
+        vm.isFast = false;
+        vm.isSafe = false;
+        vm.isAvoid = false;
         
 
 
         function _onInit() {
             console.log("map controller initialized!");
+            vm.$scope.$on('fast', vm.fast);
+            vm.$scope.$on('safe', vm.safe);
+            vm.$scope.$on('avoid', vm.avoid);
         };
+
+        function _fast() {
+            vm.isSafe = false;
+            vm.isAvoid = false;
+            vm.isFast = true;
+            vm.onChangeHandler();
+        }
+
+        function _safe() {
+            vm.isSafe = true;
+            vm.isAvoid = false;
+            vm.isFast = false;
+            vm.onChangeHandler();
+        }
+
+        function _avoid() {
+            vm.isSafe = false;
+            vm.isAvoid = true;
+            vm.isFast = false;
+            console.log("avoid clicked");
+            vm.onChangeHandler();
+        }
 
         function _initMap() {
             //new direction service by google maps
@@ -55,6 +87,8 @@
             // Instantiate an info window to hold step text.
             vm.stepDisplay = new google.maps.InfoWindow;
             vm.calculateAndDisplayRoute = _calculateAndDisplayRoute;
+            vm.calculateAndDisplayRouteAvoid = _calculateAndDisplayRouteAvoid;
+            //NEED TO DECLARE SAFE UP HERE ------------------------------------------------------------------------------
             vm.markerArray = [];
             for (var i = 0; i < vm.olympics.length; i++) {
                 var marker = new google.maps.Marker({
@@ -66,19 +100,118 @@
                 vm.markerArray.push(marker);
             }
             // Display the route between the initial start and end selections.
-            vm.calculateAndDisplayRoute(
-                vm.directionsDisplay, vm.directionsService, vm.markerArray, vm.stepDisplay, vm.map);
+            //vm.calculateAndDisplayRoute(
+            //    vm.directionsDisplay, vm.directionsService, vm.markerArray, vm.stepDisplay, vm.map);
+
 
             // Listen to change events from the start and end lists.
             vm.onChangeHandler = function () {
-                vm.calculateAndDisplayRoute(
-                    vm.directionsDisplay, vm.directionsService, vm.markerArray, vm.stepDisplay, vm.map);
+                if (vm.isSafe) {
+                    vm.calculateAndDisplayRoute(
+                        vm.directionsDisplay, vm.directionsService, vm.markerArray, vm.stepDisplay, vm.map);
+                    console.log("safe successful");
+                } else if (vm.isAvoid) {
+                    vm.calculateAndDisplayRouteAvoid(
+                        vm.directionsDisplay, vm.directionsService, vm.markerArray, vm.stepDisplay, vm.map);
+                    console.log("avoid successful");
+                } else {
+                    vm.calculateAndDisplayRoute(
+                        vm.directionsDisplay, vm.directionsService, vm.markerArray, vm.stepDisplay, vm.map);
+                    console.log("fast successful");
+                }
             };
             document.getElementById('start').addEventListener('change', vm.onChangeHandler);
             document.getElementById('end').addEventListener('change', vm.onChangeHandler);
         };
 
         function _calculateAndDisplayRoute (directionsDisplay, directionsService,
+            markerArray, stepDisplay, map) {
+
+            var directionsRequest = {
+                origin: document.getElementById('start').value,
+                destination: document.getElementById('end').value,
+                provideRouteAlternatives: false,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC
+            };
+            // Retrieve the start and end locations and create a DirectionsRequest using
+            // WALKING directions.
+            directionsService.route(
+                directionsRequest, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        var coordinatesArray = [];
+
+                        var totalPoints = 0;
+                        var routeData = [];
+
+                        for (var i = 0, len = response.routes.length; i < len; i++) {
+
+
+                            var eventLat = 33.86385889756237;
+                            var eventLng = -118.26159954071045;
+                            var route1 = 0;
+                            var route2 = 0;
+                            var route3 = 0;
+                            var totalDistance = 0;
+                            for (var j = 0; j < response.routes[i].overview_path.length; j++) {
+                                totalDistance += distance(eventLat, eventLng, response.routes[i].overview_path[j].lat(), response.routes[i].overview_path[j].lng());
+                            }
+                            totalPoints += response.routes[i].overview_path.length;
+                            var temp = totalDistance / response.routes[i].overview_path.length;
+
+                            console.log("route" + i + " " + totalDistance);
+
+                            console.log("totalPoints:" + totalPoints);
+
+                            routeData.push({ route: i, routeDistance: temp });
+
+                        }
+                        routeData.sort(function (a, b) { return a.routeDistance - b.routeDistance })
+
+                        if (vm.polylines.length > 0) {
+                            for (var i = 0; i < vm.polylines.length; i++) {
+                                console.log(vm.polylines);
+                                vm.polylines[i].setPath([]);
+                            };
+                        };
+
+                        for (var i = 0; i < routeData.length; i++) {
+                            var polyline = null;
+                            if (i == 0) {
+                                polyline = new google.maps.Polyline({
+                                    strokeColor: '#0000FF',
+                                    strokeOpacity: 0.5,
+                                    strokeWeight: 7
+                                });
+                                new google.maps.DirectionsRenderer({
+                                    map: map,
+                                    directions: response,
+                                    polylineOptions: polyline,
+                                    routeIndex: i
+                                });
+                            }
+                            else {
+                                polyline = new google.maps.Polyline({
+                                    strokeColor: '#FF0000',
+                                    strokeOpacity: 0.5,
+                                    strokeWeight: 7
+                                });
+                                new google.maps.DirectionsRenderer({
+                                    map: map,
+                                    directions: response,
+                                    polylineOptions: polyline,
+                                    routeIndex: i
+                                });
+
+                            }
+                            vm.polylines.push(polyline);
+                        }
+                        console.log(routeData);
+                    }
+                });
+        };
+
+        function _calculateAndDisplayRouteAvoid(directionsDisplay, directionsService,
             markerArray, stepDisplay, map) {
 
             var directionsRequest = {

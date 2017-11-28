@@ -7,10 +7,10 @@
             controller: 'smartCarLocationController'
         });
 
-            
+
 
     angular
-            .module(APP.NAME).service("smartCarLocationService", smartCarLocationService);
+        .module(APP.NAME).service("smartCarLocationService", smartCarLocationService);
 
     smartCarLocationService.$inject = ["$http"];
     function smartCarLocationService($http) {
@@ -55,6 +55,6 @@
         }
     }
 
-})()
+})();
 
 
