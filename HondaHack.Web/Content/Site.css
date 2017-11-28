@@ -80,14 +80,6 @@ canvas {
   border: 1px solid rgba(50, 50, 50, 0.9);
 }
 
-
-/*!
- * Start Bootstrap - Simple Sidebar HTML Template (https://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
-
 /* Toggle Styles */
 
 #wrapper {
@@ -143,6 +135,10 @@ canvas {
   list-style: none;
 }
 
+.eventList {
+    color:deeppink !important;
+    
+}
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 40px;
@@ -238,7 +234,9 @@ canvas {
     border-radius: 3px;
     color: black;
 }
-
+/* #txtSearch {
+  
+} */
 .search-query:focus + button {
     z-index: 3;
 }
