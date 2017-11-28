@@ -1,0 +1,18 @@
+﻿<div id="floating-panel">
+    <b>Start: </b>
+    <input type="text" id="start" />
+    <b>End: </b>
+    <input type="text" id="end" />
+</div>
+
+<div id="map"></div>
+                    &nbsp;
+<div id="warnings-panel"></div>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtoY7rneS95VWzFUIzqeWvPcgG_rzQaT8&callback=initMap"></script>
+
+<script>
+    function init() {
+        window.initMap();
+    };
+</script>

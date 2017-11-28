@@ -149,8 +149,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Net.Http">
-    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
       <Private>True</Private>
@@ -313,7 +312,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\public\modules\" />
+    <Folder Include="app\" />
     <Folder Include="App_Data\" />
     <Folder Include="Views\JsBuilder\" />
   </ItemGroup>

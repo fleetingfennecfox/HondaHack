@@ -1,11 +1,11 @@
 (function () {
     'use strict';
-
+     
     angular.module("publicApp")
         .controller("indexController", indexController);    
-
+ 
     function indexController() {
-        var vm = this;
+        var vm = this; 
         vm.btnFindLocation = _btnFindLocation;
         vm.showInput = true;
         vm.hideInputBtn = _hideInputBtn;
