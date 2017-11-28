@@ -1,8 +1,7 @@
 (function () {
     'use strict';
 
-
-    angular.module("appPublic") 
+    angular.module("publicApp")
         .controller("indexController", indexController);    
 
     function indexController() {
