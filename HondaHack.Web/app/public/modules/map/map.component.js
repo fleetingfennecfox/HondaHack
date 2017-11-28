@@ -14,14 +14,15 @@
     angular.module("publicApp")
         .controller("mapController", MapController);
 
-    MapController.$inject = ["$scope", "$window", "$rootScope"];
+    MapController.$inject = ["$scope", "$window", "$rootScope", "$state"];
 
-    function MapController($scope, $window, $rootScope) {
+    function MapController($scope, $window, $rootScope, $state) {
         var vm = this;
         vm.$scope = $scope;
         vm.$window = $window;
         vm.$rootScope = $rootScope;
         vm.$onInit = _onInit;
+        vm.$state = $state;
         vm.$window.initMap = _initMap;
         vm.polylines = [];
         vm.markerArray = [];
