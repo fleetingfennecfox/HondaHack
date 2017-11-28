@@ -24,6 +24,6 @@
                 url: '/public/home',
                 templateUrl: '/app/public/modules/homePage.html'
             });
-    }
+    };
 
 })();
