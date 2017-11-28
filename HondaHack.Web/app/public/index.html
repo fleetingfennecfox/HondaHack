@@ -13,62 +13,48 @@
     <!-- Bootstrap core CSS -->
     <!-- bootstrap -->
     <link href="../../Content/bootstrap.css" rel="stylesheet">
-    <link href="../../Content/font-awesome.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="../../Content/Site.css" rel="stylesheet" />
     <style>
         /* Always set the map height explicitly to define the size of the div
                        * element that contains the map. */
-        #map {
-            height: 600px;
-            width: 1000px;
-        }
-        /* Optional: Makes the sample page fill the window. */
         
-
-        #floating-panel {
-            position: absolute;
-            top: 10px;
-            left: 25%;
-            z-index: 5;
-            background-color: #fff;
-            padding: 5px;
-            border: 1px solid #999;
-            text-align: center;
-            font-family: 'Roboto','sans-serif';
-            line-height: 30px;
-            padding-left: 10px;
-        }
-
-        #warnings-panel {
-            width: 100%;
-            height: 10%;
-            text-align: center;
-        }
     </style>
 
 </head>
 
-<body ng-app="publicApp">
+<body ng-app="publicApp" ng-controller="indexController as indexCtrl">
     <div id="wrapper" class="toggled">
         <div id="sidebar-wrapper">
             <!-- Feature Choices -->
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="#">
+                    <a href="#" ui-sref="home">
                         Route Planner
                     </a>
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Fastest Route</a><!-- Brent Ida-->
+                    <a href="#" ng-click="indexCtrl.fastestRouteClicked()">Fastest Route</a><!-- Brent Ida-->
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Safest Route</a><!-- Evan Leach -->
+                    <a href="#" ng-click="indexCtrl.safestClicked()">Safe Routes</a><!-- Evan Leach -->
+
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Avoid Events</a><!-- Chris Haralson -->  
+                    <a href="#" ng-click="indexCtrl.avoidClicked()">Avoid Events</a><!-- Chris Haralson -->  
+                </li>
+                <br />
+                <li>
+                    <a href="#" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show List Events</a>
                 </li>
                 <li>
-                    <a href="" ui-sref="home" ng-click="showInput = !showInput" ng-init="showInput = true" ng-show="showInput">Find a City</a><!-- Wei -->
+                    <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">Stub Hub</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
                 </li>
             </ul>
         </div>
@@ -86,7 +72,7 @@
                             <div class="text-home">
                                 <!-- Map Frame -->
                                 <div ui-view>
-                                    
+
                                 </div>
                                 <!--<div class="line"></div>
                                 <ul class="nav">
@@ -107,7 +93,7 @@
 
 
         <div id="footer">
-
+            
         </div>
 
     </div>
@@ -126,7 +112,7 @@
         function goTo(element) {
             jQuery('html, body').animate({
                 scrollTop: (jQuery(element).offset().top) - 170
-            }, 500, function () {});
+            }, 500, function () { });
         }
 
 
@@ -137,8 +123,7 @@
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
             });
-            $(document).ready(function () {
-            });
+            $(document).ready(function () {});
         });
 
         //effets background particules
@@ -152,8 +137,7 @@
             }, 1000);
         }).call(this);
 
-        $(window).on('resize', function () {
-        });
+        $(window).on('resize', function () {});
 
         //CANVAS
         $(function () {
@@ -221,7 +205,7 @@
                                 (i_dot.x - j_dot.x) > -dots.distance && (i_dot.y - j_dot.y) > -dots.distance
                             ) {
                                 if ((i_dot.x - mousePosition.x) < dots.d_radius && (i_dot.y -
-                                        mousePosition.y) < dots.d_radius && (i_dot.x - mousePosition.x) >
+                                    mousePosition.y) < dots.d_radius && (i_dot.x - mousePosition.x) >
                                     -dots.d_radius && (i_dot.y - mousePosition.y) > -dots.d_radius) {
                                     ctx.beginPath();
                                     ctx.moveTo(i_dot.x, i_dot.y);
