@@ -2,7 +2,7 @@
     'use strict';
 
 
-    angular.module("appPublic")
+    angular.module("appPublic") 
         .controller("indexController", indexController);    
 
     function indexController() {
