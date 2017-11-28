@@ -15,6 +15,11 @@
 
         $stateProvider
             .state({
+                name: 'map',
+                url: '/public/map',
+                templateUrl: '/app/public/modules/map/map.html'
+            })
+            .state({
                 name: 'home',
                 url: '/public/home',
                 templateUrl: '/app/public/modules/homePage.html'
