@@ -23,6 +23,11 @@
                 name: 'home',
                 url: '/public/home',
                 templateUrl: '/app/public/modules/homePage.html'
+            })
+            .state({
+                name: 'map',
+                url: '/public/map',
+                templateUrl: '/app/public/modules/Map.html'
             });
     };
 
