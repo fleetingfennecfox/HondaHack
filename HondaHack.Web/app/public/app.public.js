@@ -6,5 +6,4 @@
 
     angular
         .module(APP.NAME, ['ui.router', APP.NAME + '.routes']);
-
 })();

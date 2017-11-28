@@ -315,6 +315,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\public\modules\" />
     <Folder Include="App_Data\" />
     <Folder Include="Views\JsBuilder\" />
   </ItemGroup>
