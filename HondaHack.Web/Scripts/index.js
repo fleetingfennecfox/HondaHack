@@ -5,7 +5,7 @@
         .controller("indexController", indexController);    
 
     function indexController() {
-        var vm = this;
+        var vm = this; 
         vm.btnFindLocation = _btnFindLocation;
 
         function _btnFindLocation() {
