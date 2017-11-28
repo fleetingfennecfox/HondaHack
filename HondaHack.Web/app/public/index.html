@@ -23,7 +23,7 @@
             width: 1000px;
         }
         /* Optional: Makes the sample page fill the window. */
-        
+
 
         #floating-panel {
             position: absolute;
@@ -65,10 +65,23 @@
                     <a href="#" ng-hide="showInput">Safest Route</a><!-- Evan Leach -->
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Avoid Events</a><!-- Chris Haralson -->  
+                    <a href="#" ng-hide="showInput">Avoid Events</a><!-- Chris Haralson -->
                 </li>
                 <li>
                     <a href="" ui-sref="home" ng-click="showInput = !showInput" ng-init="showInput = true" ng-show="showInput">Find a City</a><!-- Wei -->
+                </li>
+                <hr />
+                <li>
+                    <a href="#" ng-click="listTrue = true" ng-hide="showInput">Show List Events</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">Stub Hub</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
                 </li>
             </ul>
         </div>
@@ -86,7 +99,7 @@
                             <div class="text-home">
                                 <!-- Map Frame -->
                                 <div ui-view>
-                                    
+
                                 </div>
                                 <!--<div class="line"></div>
                                 <ul class="nav">
@@ -126,7 +139,7 @@
         function goTo(element) {
             jQuery('html, body').animate({
                 scrollTop: (jQuery(element).offset().top) - 170
-            }, 500, function () {});
+            }, 500, function () { });
         }
 
 
@@ -221,7 +234,7 @@
                                 (i_dot.x - j_dot.x) > -dots.distance && (i_dot.y - j_dot.y) > -dots.distance
                             ) {
                                 if ((i_dot.x - mousePosition.x) < dots.d_radius && (i_dot.y -
-                                        mousePosition.y) < dots.d_radius && (i_dot.x - mousePosition.x) >
+                                    mousePosition.y) < dots.d_radius && (i_dot.x - mousePosition.x) >
                                     -dots.d_radius && (i_dot.y - mousePosition.y) > -dots.d_radius) {
                                     ctx.beginPath();
                                     ctx.moveTo(i_dot.x, i_dot.y);
