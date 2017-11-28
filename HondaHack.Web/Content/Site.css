@@ -212,6 +212,9 @@ canvas {
     padding-right: 4px \9;
     padding-left: 3px;
     padding-left: 4px \9;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 30px;
     /* IE7-8 doesn't have border-radius, so don't indent the padding */
     margin-bottom: 0;
     -webkit-border-radius: 3px;
@@ -232,10 +235,13 @@ canvas {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    color: #D9230F;
+    color: black;
 }
 
 .search-query:focus + button {
     z-index: 3;
 }
 
+.input-group-button {
+    padding-bottom: 0px;
+}
