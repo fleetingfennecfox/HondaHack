@@ -24,6 +24,8 @@
         vm.$onInit = _onInit;
         vm.$state = $state;
         vm.$window.initMap = _initMap;
+        vm.timer = _timer;
+        vm.displayRoute = _displayRoute;
         vm.polylines = [];
         vm.markerArray = [];
         vm.fast = _fast;
@@ -32,6 +34,8 @@
         vm.isFast = false;
         vm.isSafe = false;
         vm.isAvoid = false;
+        vm.routeData = [];
+        vm.status = "";
 
 
 
@@ -40,6 +44,54 @@
             vm.$scope.$on('fast', vm.fast);
             vm.$scope.$on('safe', vm.safe);
             vm.$scope.$on('avoid', vm.avoid);
+        };
+
+        function _displayRoute() {
+            vm.timer();
+        };
+
+        function _timer() {
+            var i = 0;
+            $("#messageOne").text("");
+            $("#messageTwo").text("");
+            $("#messageThree").text("");
+            $("#messageFour").text("");
+            $("#messageFive").text("");
+
+            var temp = vm.routeData[0].directions;
+            var interval = setInterval(function () {
+                i += 1;
+                if (i === 4) {
+                    switch (vm.status) {
+                        case "fastest":
+                            temp.splice(0, 0, "You are now approaching a neighborhood with elevated levels of vehicles hitting pedestrians.  Please use extreme caution for the next .25 miles.");
+                            break;
+                        case "avoid":
+                            break;
+                        case "safest":
+                            temp.splice(0, 0, "We have detected unusual swerving by a Blue Ford Mustang currently heading your direction.  Possible drunk or medical condition.  Please take caution when advancing!");
+                            break;
+                    };
+                };
+                if (temp[0].distance) {
+                    $("#messageOne").text(temp[0].distance + " " + temp[0].instruction);
+                    $("#messageOne").removeClass("alert");
+                } else {
+                    $("#messageOne").text(temp[0]);
+                    $("#messageOne").addClass("alert");
+                };
+                $("#messageTwo").text(temp[1].distance + " " + temp[1].instruction);
+                $("#messageThree").text(temp[2].distance + " " + temp[2].instruction);
+                $("#messageFour").text(temp[3].distance + " " + temp[3].instruction);
+                $("#messageFive").text(temp[4].distance + " " + temp[4].instruction);
+                console.log(temp[i]);
+
+                if (i === 6) {
+                    clearInterval(interval);
+                };
+                temp.shift();
+            }, 6000);
+
         };
 
         function _fast() {
@@ -138,7 +190,7 @@
                 destination: document.getElementById('end').value,
                 provideRouteAlternatives: false,
                 travelMode: google.maps.DirectionsTravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.METRIC
+                unitSystem: google.maps.UnitSystem.IMPERIAL
             };
             // Retrieve the start and end locations and create a DirectionsRequest using
             // WALKING directions.
@@ -159,24 +211,36 @@
                             var route2 = 0;
                             var route3 = 0;
                             var totalDistance = 0;
+
+                            var directions = [];
+                            response.routes[0].legs[0].steps.forEach(function (step) {
+                                function html2text(html) {
+                                    var tag = document.createElement('div');
+                                    tag.innerHTML = html;
+
+                                    return tag.innerText;
+                                }
+
+                                var outputInstructions = html2text(step.instructions);
+                                var outputDistance = html2text(step.distance.text);
+
+                                directions.push({ instruction: outputInstructions, distance: outputDistance });
+                            });
+
                             for (var j = 0; j < response.routes[i].overview_path.length; j++) {
                                 totalDistance += distance(eventLat, eventLng, response.routes[i].overview_path[j].lat(), response.routes[i].overview_path[j].lng());
                             }
                             totalPoints += response.routes[i].overview_path.length;
                             var temp = totalDistance / response.routes[i].overview_path.length;
 
-                            console.log("route" + i + " " + totalDistance);
 
-                            console.log("totalPoints:" + totalPoints);
-
-                            routeData.push({ route: i, routeDistance: temp });
+                            routeData.push({ route: i, routeDistance: temp, directions: directions });
 
                         }
                         routeData.sort(function (a, b) { return a.routeDistance - b.routeDistance })
 
                         if (vm.polylines.length > 0) {
                             for (var i = 0; i < vm.polylines.length; i++) {
-                                console.log(vm.polylines);
                                 vm.polylines[i].setPath([]);
                             };
                         };
@@ -212,7 +276,10 @@
                             }
                             vm.polylines.push(polyline);
                         }
-                        console.log(routeData);
+                        vm.routeData = [];
+                        vm.routeData = routeData;
+                        vm.displayRoute();
+                        vm.status = "fastest";
                     }
                 });
         };
@@ -238,7 +305,6 @@
                         var totalPoints = 0;
                         var routeData = [];
                         
-
                         for (var i = 0, len = response.routes.length; i < len; i++) {
 
 
@@ -259,6 +325,7 @@
 
                                 var outputInstructions = html2text(step.instructions);
                                 var outputDistance = html2text(step.distance.text);
+                                
                                 directions.push({ instruction: outputInstructions, distance: outputDistance });
                             });
 
@@ -268,9 +335,6 @@
                             totalPoints += response.routes[i].overview_path.length;
                             var temp = totalDistance / response.routes[i].overview_path.length;
 
-                            console.log("route" + i + " " + totalDistance);
-
-                            console.log("totalPoints:" + totalPoints);
 
                             routeData.push({ route: i, routeDistance: temp, directions: directions });
 
@@ -279,7 +343,6 @@
 
                         if (vm.polylines.length > 0) {
                             for (var i = 0; i < vm.polylines.length; i++) {
-                                console.log(vm.polylines);
                                 vm.polylines[i].setPath([]);
                             };
                         };
@@ -315,7 +378,10 @@
                             }
                             vm.polylines.push(polyline);
                         }
-                        console.log(routeData);
+                        vm.routeData = [];
+                        vm.routeData = routeData;
+                        vm.displayRoute();
+                        vm.status = "avoid";
                     }
                 });
         };
@@ -328,7 +394,7 @@
                 destination: document.getElementById('end').value,
                 provideRouteAlternatives: true,
                 travelMode: google.maps.DirectionsTravelMode.WALKING,
-                unitSystem: google.maps.UnitSystem.METRIC
+                unitSystem: google.maps.UnitSystem.IMPERIAL
             };
             // Retrieve the start and end locations and create a DirectionsRequest using
             // WALKING directions.
@@ -358,6 +424,22 @@
                             var route2 = 0;
                             var route3 = 0;
                             var totalDistance = 0;
+
+                            var directions = [];
+                            response.routes[0].legs[0].steps.forEach(function (step) {
+                                function html2text(html) {
+                                    var tag = document.createElement('div');
+                                    tag.innerHTML = html;
+
+                                    return tag.innerText;
+                                }
+
+                                var outputInstructions = html2text(step.instructions);
+                                var outputDistance = html2text(step.distance.text);
+
+                                directions.push({ instruction: outputInstructions, distance: outputDistance });
+                            });
+
                             for (var j = 0; j < response.routes[i].overview_path.length; j++) {
                                 for (var k = 0; k < eventLat.length; k++) {
                                     totalDistance += distance(eventLat[k], eventLng[k], response.routes[i].overview_path[j].lat(), response.routes[i].overview_path[j].lng());
@@ -366,18 +448,14 @@
                             totalPoints += response.routes[i].overview_path.length;
                             var temp = totalDistance / response.routes[i].overview_path.length;
 
-                            console.log("route" + i + " " + totalDistance);
 
-                            console.log("totalPoints:" + totalPoints);
-
-                            routeData.push({ route: i, routeDistance: temp });
+                            routeData.push({ route: i, routeDistance: temp, directions: directions });
 
                         }
                         routeData.sort(function (a, b) { return a.routeDistance - b.routeDistance })
 
                         if (vm.polylines.length > 0) {
                             for (var i = 0; i < vm.polylines.length; i++) {
-                                console.log(vm.polylines);
                                 vm.polylines[i].setPath([]);
                             };
                         };
@@ -413,7 +491,10 @@
                             }
                             vm.polylines.push(polyline);
                         }
-                        console.log(routeData);
+                        vm.routeData = [];
+                        vm.routeData = routeData;
+                        vm.displayRoute();
+                        vm.status = "safest";
                     }
                 });
         };

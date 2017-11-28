@@ -25,53 +25,59 @@
 
 <body ng-app="publicApp" ng-controller="indexController as indexCtrl">
     <div id="wrapper" class="toggled">
-        <div id="sidebar-wrapper">
-            <!-- Feature Choices -->
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#" ui-sref="home">
-                        Route Planner
-                    </a>
-                </li>
-                <li>
-                    <a href="#" ng-click="indexCtrl.fastestRouteClicked()">Fastest Route</a><!-- Brent Ida-->
-                </li>
-                <li>
-                    <a href="#" ng-click="indexCtrl.safestClicked()">Safe Routes</a><!-- Evan Leach -->
+        <div>
+            <div id="sidebar-wrapper">
+                <!-- Feature Choices -->
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#" ui-sref="home">
+                            Route Planner
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" ng-click="indexCtrl.fastestRouteClicked()">Fastest Route</a><!-- Brent Ida-->
+                    </li>
+                    <li>
+                        <a href="#" ng-click="indexCtrl.safestClicked()">Safe Routes</a><!-- Evan Leach -->
 
-                </li>
-                <li>
-                    <a href="#" ng-click="indexCtrl.avoidClicked()">Avoid Events</a><!-- Chris Haralson -->  
-                </li>
-                <hr />
-                <li>
-                    <a href="#" id="events" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show List Events</a>
-                </li>
-                <li>
-                    <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
-                </li>
-                <li>
-                    <a href="#" ng-if="listTrue == true" class="eventList">Stub Hub</a>
-                </li>
-                <li>
-                    <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
-                </li>
-                <li id="messageOne" style="color: white">
+                    </li>
+                    <li>
+                        <a href="#" ng-click="indexCtrl.avoidClicked()">Avoid Events</a><!-- Chris Haralson -->
+                    </li>
+                    <hr />
+                    <li id="events">
+                        <a href="#" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show List Events</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-if="listTrue == true" class="eventList">Stub Hub</a>
+                    </li>
+                    <li>
+                        <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
+                    </li>
+                    <hr />
+                    <div style="margin: 3px">
+                        <li id="messageOne" style="color: gray">
+
+                        </li>
+                        <li id="messageTwo" style="color: gray">
+
+                        </li>
+                        <li id="messageThree" style="color: gray">
+
+                        </li>
+                        <li id="messageFour" style="color: gray">
+
+                        </li>
+                        <li id="messageFive" style="color: gray">
+
+                        </li>
+                    </div>
                     
-                </li>
-                <li id="messageTwo" style="color: white">
-                    
-                </li>
-                <li id="messageThree" style="color: white">
-                    
-                </li>
-                <li id="messageFour" style="color: white">
-                    
-                </li>
-                <li id="messageFive" style="color: white">
-                    
-                </li>
-            </ul>
+                </ul>
+            </div>
         </div>
         <div id="page-content-wrapper">
             <a class="btn btn-default" href="#menu-toggle" id="menu-toggle">
