@@ -5,6 +5,5 @@
     APP.NAME = "publicApp";
 
     angular
-        .module(APP.NAME, ['ui.router', APP.NAME + '.routes']);
-
+        .module(APP.NAME, ['ui.router', APP.NAME + '.routes'])
 })();
