@@ -43,9 +43,9 @@
                 <li>
                     <a href="#" ng-click="indexCtrl.avoidClicked()">Avoid Events</a><!-- Chris Haralson -->  
                 </li>
-                <br />
+                <hr />
                 <li>
-                    <a href="#" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show List Events</a>
+                    <a href="#" ng-init="listTrue = false" ng-click="listTrue = !listTrue" ng-hide="showInput">Show Current Events</a>
                 </li>
                 <li>
                     <a href="#" ng-if="listTrue == true" class="eventList">Rose Bowl</a>
@@ -55,6 +55,12 @@
                 </li>
                 <li>
                     <a href="#" ng-if="listTrue == true" class="eventList">Santa Monica Beach</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">LA Stadium</a>
+                </li>
+                <li>
+                    <a href="#" ng-if="listTrue == true" class="eventList">The Forum</a>
                 </li>
             </ul>
         </div>
