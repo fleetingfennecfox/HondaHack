@@ -15,15 +15,20 @@
 
         $stateProvider
             .state({
+                name: 'map',
+                url: '/public/map',
+                templateUrl: '/app/public/modules/map/map.html'
+            })
+            .state({
                 name: 'home',
                 url: '/public/home',
                 templateUrl: '/app/public/modules/homePage.html'
             })
             .state({
-                name: 'map',
-                url: '/public/map',
+                name: 'map2',
+                url: '/public/map2',
                 templateUrl: '/app/public/modules/Map.html'
             });
-    }
+    };
 
 })();
