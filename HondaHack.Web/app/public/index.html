@@ -13,7 +13,7 @@
     <!-- Bootstrap core CSS -->
     <!-- bootstrap -->
     <link href="../../Content/bootstrap.css" rel="stylesheet">
-    <link href="../../Content/font-awesome.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="../../Content/Site.css" rel="stylesheet" />
 </head>
 
@@ -28,16 +28,20 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Fastest Route</a><!-- Brent Ida-->
+                    <a href="#" ng-hide="showInput">Fastest Route</a>
+                    <!-- Brent Ida-->
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Safest Route</a><!-- Evan Leach -->
+                    <a href="#" ng-hide="showInput">Safest Route</a>
+                    <!-- Evan Leach -->
                 </li>
                 <li>
-                    <a href="#" ng-hide="showInput">Avoid Events</a><!-- Chris Haralson -->  
+                    <a href="#" ng-hide="showInput">Avoid Events</a>
+                    <!-- Chris Haralson -->
                 </li>
                 <li>
-                    <a href="" ui-sref="home" ng-click="showInput = !showInput" ng-init="showInput = true" ng-show="showInput">Find a City</a><!-- Wei -->
+                    <a href="" ui-sref="home" ng-click="showInput = !showInput" ng-init="showInput = true" ng-show="showInput">Find a City</a>
+                    <!-- Wei -->
                 </li>
             </ul>
         </div>
@@ -55,7 +59,7 @@
                             <div class="text-home">
                                 <!-- Map Frame -->
                                 <div ui-view>
-                                    
+
                                 </div>
                                 <!--<div class="line"></div>
                                 <ul class="nav">
@@ -75,8 +79,10 @@
         </div>
 
 
-        <div id="footer">
-
+        <div id="footer" class="col-md-12">
+            <div class="githubLink">
+                <p>Check us out on Github</p>
+            </div>
         </div>
 
     </div>
@@ -106,8 +112,7 @@
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
             });
-            $(document).ready(function () {
-            });
+            $(document).ready(function () {});
         });
 
         //effets background particules
@@ -121,8 +126,7 @@
             }, 1000);
         }).call(this);
 
-        $(window).on('resize', function () {
-        });
+        $(window).on('resize', function () {});
 
         //CANVAS
         $(function () {
