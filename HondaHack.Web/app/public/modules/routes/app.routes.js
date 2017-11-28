@@ -29,6 +29,7 @@
                 url: '/public/map2',
                 templateUrl: '/app/public/modules/Map.html'
             })
+            .state({
                 name: 'test',
                 url: '/test',
                 templateUrl: '/app/public/modules/test/test.html',
