@@ -1,16 +1,237 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <title>Public Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Route Planner</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- bootstrap -->
+    <link href="../../Content/bootstrap.css" rel="stylesheet">
+    <link href="../../Content/font-awesome.css" rel="stylesheet">
+    <link href="../../Content/Site.css" rel="stylesheet" />
 </head>
+
 <body ng-app="publicApp">
+    <div id="wrapper" class="toggled">
+        <div id="sidebar-wrapper">
+            <!-- Feature Choices -->
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Route Planner
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Speedy Route</a><!-- Brent Ida-->
+                </li>
+                <li>
+                    <a href="#">Safest Route</a><!-- Evan Leach -->
+                </li>
+                <li>
+                    <a href="#">Farthest Route</a><!-- Chris Haralson -->  
+                </li>
+                <li>
+                    <a href="#">Current Events</a><!-- Wei -->
+                </li>
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            <a class="btn btn-default" href="#menu-toggle" id="menu-toggle">
+                <span class="glyphicon glyphicon-align-justify"></span>
+            </a>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="home-container">
+                        <canvas></canvas>
+                        <div class="main-content">
+
+                            <div class="text-home">
+                                <!-- Map Frame -->
+                                <div ui-view>
+
+                                </div>
+                                <div class="line"></div>
+                                <ul class="nav">
+                                    <li>
+                                        <a href="#" class="chaffle maj" data-lang="en">Vehicle Location</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="chaffle maj" data-lang="en">Destination</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-    <script src="/Scripts/angular.js"></script>
-    <script src="/Scripts/angular-ui-router.js"></script>
+        <div id="footer">
 
-    <script src="/Scripts/dest/public/app.public.js"></script>
-  
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+    <script src="../../Scripts/angular.js"></script>
+    <script src="../../Scripts/angular-ui-router.js"></script>
+    <script src="../../Scripts/dest/public/app.public.js"></script>
+    <script src="../../Scripts/index.js">
+    </script>
+    <!-- Menu Toggle Script -->
+    <script type="text/javascript">
+        /* FUNCTIONS BASE JS */
+        function goTo(element) {
+            jQuery('html, body').animate({
+                scrollTop: (jQuery(element).offset().top) - 170
+            }, 500, function () {});
+        }
+
+
+        //Menu latéral toggle & lettring
+        jQuery(function () {
+
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+            $(document).ready(function () {
+            });
+        });
+
+        //effets background particules
+
+        (function () {
+            setInterval(function () {
+                var now, timestamp;
+                timestamp = new Date(1987, 5, 30);
+                now = new Date();
+                return $('#time').text(((now - timestamp) / 1000).toFixed(0));
+            }, 1000);
+        }).call(this);
+
+        $(window).on('resize', function () {
+        });
+
+        //CANVAS
+        $(function () {
+            var canvas = document.querySelector('canvas'),
+                ctx = canvas.getContext('2d'),
+                color = '#000';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.display = 'block';
+            ctx.fillStyle = color;
+            ctx.lineWidth = .1;
+            ctx.strokeStyle = color;
+
+            var mousePosition = {
+                x: 30 * canvas.width / 65,
+                y: 30 * canvas.height / 65
+            };
+
+            var dots = {
+                nb: 150,
+                distance: 100,
+                d_radius: 150,
+                array: []
+            };
+
+            function Dot() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+
+                this.vx = -.5 + Math.random();
+                this.vy = -.5 + Math.random();
+
+                this.radius = Math.random();
+            }
+
+            Dot.prototype = {
+                create: function () {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                    ctx.fill();
+                },
+                animate: function () {
+                    for (i = 0; i < dots.nb; i++) {
+
+                        var dot = dots.array[i];
+
+                        if (dot.y < 0 || dot.y > canvas.height) {
+                            dot.vx = dot.vx;
+                            dot.vy = -dot.vy;
+                        } else if (dot.x < 0 || dot.x > canvas.width) {
+                            dot.vx = -dot.vx;
+                            dot.vy = dot.vy;
+                        }
+                        dot.x += dot.vx;
+                        dot.y += dot.vy;
+                    }
+                },
+                line: function () {
+                    for (i = 0; i < dots.nb; i++) {
+                        for (j = 0; j < dots.nb; j++) {
+                            i_dot = dots.array[i];
+                            j_dot = dots.array[j];
+
+                            if ((i_dot.x - j_dot.x) < dots.distance && (i_dot.y - j_dot.y) < dots.distance &&
+                                (i_dot.x - j_dot.x) > -dots.distance && (i_dot.y - j_dot.y) > -dots.distance
+                            ) {
+                                if ((i_dot.x - mousePosition.x) < dots.d_radius && (i_dot.y -
+                                        mousePosition.y) < dots.d_radius && (i_dot.x - mousePosition.x) >
+                                    -dots.d_radius && (i_dot.y - mousePosition.y) > -dots.d_radius) {
+                                    ctx.beginPath();
+                                    ctx.moveTo(i_dot.x, i_dot.y);
+                                    ctx.lineTo(j_dot.x, j_dot.y);
+                                    ctx.stroke();
+                                    ctx.closePath();
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            function createDots() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (i = 0; i < dots.nb; i++) {
+                    dots.array.push(new Dot());
+                    dot = dots.array[i];
+
+                    dot.create();
+                }
+
+                dot.line();
+                dot.animate();
+            }
+
+            $('canvas').on('mousemove mouseleave', function (e) {
+                if (e.type == 'mousemove') {
+                    mousePosition.x = e.pageX;
+                    mousePosition.y = e.pageY;
+                }
+                if (e.type == 'mouseleave') {
+                    mousePosition.x = canvas.width / 2;
+                    mousePosition.y = canvas.height / 2;
+                }
+            });
+            setInterval(createDots, 1000 / 30);
+        });
+    </script>
+
+
 </body>
+
 </html>
