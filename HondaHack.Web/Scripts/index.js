@@ -1,10 +1,8 @@
 (function () {
     'use strict';
 
-    window.APPNAME = 'publicApp';
-    angular.module(APPNAME, ['ui.router']);
 
-    angular.module(APPNAME)
+    angular.module("appPublic")
         .controller("indexController", indexController);    
 
     function indexController() {
