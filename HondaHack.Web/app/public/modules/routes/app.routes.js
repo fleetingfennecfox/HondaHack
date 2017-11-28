@@ -29,6 +29,12 @@
                 component: 'featureTwo',
                 url: '/admin/featureTwo',
                 templateUrl: '/app/admin/modules/feature-two/featureTwo.html'
+            })
+            .state({
+                name: 'smartCarLocation',
+                component: 'smartCarLocation',
+                url: '/public/smartCarLocation',
+                templateUrl: '/app/public/modules/smartCarLocation/smartCarLocation.html'
             });
 
 
