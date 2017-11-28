@@ -285,3 +285,7 @@ canvas {
     height: 100%;
     position: relative;
 }
+
+.alert {
+    color: red !important;
+}
