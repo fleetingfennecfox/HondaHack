@@ -3,7 +3,7 @@
      
     angular.module("publicApp")
         .controller("indexController", indexController);    
-
+ 
     function indexController() {
         var vm = this; 
         vm.btnFindLocation = _btnFindLocation;
