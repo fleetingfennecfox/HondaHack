@@ -1,0 +1,101 @@
+﻿<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        height: 100%;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div id="map"></div>
+<script>
+    function initMap() {
+        var service = new google.maps.DirectionsService;
+        var map = new google.maps.Map(document.getElementById('map'));
+
+        // list of points
+        var stations = [
+            { lat: 33.94616, lng: -118.336119, name: 'L.A. Football Stadium' },
+            { lat: 34.01400974062912, lng: -118.28789591789246, name: 'L.A. Memorial Coliseum' },
+            { lat: 34.023756063608005, lng: -118.28983783721924, name: 'Dedeaux Field' },
+            { lat: 34.02129291064699, lng: -118.28033208847044, name: 'Galen Center' },
+            { lat: 34.0407827647928, lng: -118.27005386352539, name: 'L.A. Convention Center' },
+            { lat: 34.043058660157634, lng: -118.26724290847778, name: 'Staples Center' },
+            { lat: 34.05371721653835, lng: -118.24275970458984, name: 'L.A. City hall' },
+            { lat: 33.95820919323983, lng: -118.34187805652618, name: 'The Forum' },
+            { lat: 34.1606364, lng: -118.1674865, name: 'Rose Bowl' },
+            { lat: 34.044343, lng: -118.267060, name: 'Microsoft Theater' },
+            { lat: 34.000602, lng: -118.485658, name: 'Santa Monica Beach' },
+            { lat: 34.07037797099821, lng: -118.44678461551666, name: 'Pauley Pavilion' },
+            { lat: 33.764480667022525, lng: -118.1902055294473, name: 'Long Beach Convention & Entertainment Center' },
+            { lat: 33.86385889756237, lng: -118.26159954071045, name: 'StubHub Center' },
+            { lat: 34.189857, lng: -118.451355, name: 'Sepulveda Basin Sports Complex' },
+            { lat: 33.807836, lng: -117.876544, name: 'Honda Center' },
+            { lat: 33.8570, lng: -117.1765, name: 'Lake Perris' },
+            { lat: 34.050242, lng: -118.502312, name: 'Riviera Country Club' },
+            { lat: 34.077098, lng: -117.807330, name: 'Frank G. Bonelli Regional Park' },
+            { lat: 34.069600, lng: -118.446972, name: 'UCLA Student Housing' }
+
+          
+            
+            // ... as many other stations as you need
+        ];
+
+        // Zoom and center map automatically by stations (each station will be in visible map area)
+        var lngs = stations.map(function (station) { return station.lng; });
+        var lats = stations.map(function (station) { return station.lat; });
+        map.fitBounds({
+            west: Math.min.apply(null, lngs),
+            east: Math.max.apply(null, lngs),
+            north: Math.min.apply(null, lats),
+            south: Math.max.apply(null, lats),
+        });
+
+        // Show stations on the map as markers
+        for (var i = 0; i < stations.length; i++) {
+            new google.maps.Marker({
+                position: stations[i],
+                map: map,
+                title: stations[i].name
+            });
+        }
+
+        // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
+        for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max)
+            parts.push(stations.slice(i, i + max + 1));
+
+        // Service callback to process service results
+        var service_callback = function (response, status) {
+            if (status != 'OK') {
+                console.log('Directions request failed due to ' + status);
+                return;
+            }
+            var renderer = new google.maps.DirectionsRenderer;
+            renderer.setMap(map);
+            renderer.setOptions({ suppressMarkers: true, preserveViewport: true });
+            renderer.setDirections(response);
+        };
+
+        // Send requests to service to get route (for stations count <= 25 only one request will be sent)
+        for (var i = 0; i < parts.length; i++) {
+            // Waypoints does not include first station (origin) and last station (destination)
+            var waypoints = [];
+            for (var j = 1; j < parts[i].length - 1; j++)
+                waypoints.push({ location: parts[i][j], stopover: false });
+            // Service options
+            var service_options = {
+                origin: parts[i][0],
+                destination: parts[i][parts[i].length - 1],
+                waypoints: waypoints,
+                travelMode: 'DRIVING'//WAS WALKING
+            };
+            // Send request
+            service.route(service_options, service_callback);
+        }
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtoY7rneS95VWzFUIzqeWvPcgG_rzQaT8&callback=initMap"></script>
