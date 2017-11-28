@@ -8,15 +8,17 @@
         /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
         #map {
-            height: 200px;
+            height: 80vh;
+            width: 27vw;
         }
         /* Optional: Makes the sample page fill the window. */
-        
+
 
         #floating-panel {
             position: absolute;
-            top: 10px;
-            left: 25%;
+            font-size: 12px;
+            top: -40px;
+            left: 38%;
             z-index: 5;
             background-color: #fff;
             padding: 5px;
@@ -24,7 +26,7 @@
             text-align: center;
             font-family: 'Roboto','sans-serif';
             line-height: 30px;
-            padding-left: 10px;
+            padding-left: 0px;
         }
 
         #warnings-panel {
@@ -35,8 +37,9 @@
     </style>
 </head>
 <body>
+
     <div id="floating-panel">
-        <b>Start: </b>
+        <b>Start: </b> 
         <input type="text" id="start" />
         <b>End: </b>
         <input type="text" id="end" />
